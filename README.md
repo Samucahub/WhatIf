@@ -7,7 +7,7 @@
 
 **WhatIf?** is a comprehensive automated reconnaissance and vulnerability scanning tool designed for security professionals, penetration testers, and ethical hackers.
 
-> ⚠️ **WARNING**: This tool is for authorized security testing and educational purposes only. Always obtain proper authorization before scanning any systems.
+> ⚠️ **WARNING**: This tool is for authorized security testing purposes only. Always obtain proper authorization before scanning any systems.
 
 ## ✨ Features
 

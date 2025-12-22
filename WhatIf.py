@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 WhatIf? - Automated Reconnaissance & Vulnerability Scanner
-Author: Security Automation Tool
-Version: 2.0
+Author: The Architect
+Version: 1.0
 Description: Performs passive and active reconnaissance with web vulnerability scanning
 Important: Use only on systems you own or have explicit permission to test
 """
@@ -22,7 +22,6 @@ from datetime import datetime
 from typing import List, Dict, Any, Optional, Set
 from urllib.parse import urljoin, urlparse
 
-# Terminal colors for the "bizarre" interface
 class Colors:
     RED = '\033[91m'
     GREEN = '\033[92m'
@@ -39,7 +38,6 @@ class Colors:
     BG_YELLOW = '\033[43m'
     BLINK = '\033[5m'
 
-# Third-party imports
 try:
     import requests
     from bs4 import BeautifulSoup
@@ -51,21 +49,19 @@ except ImportError as e:
     sys.exit(1)
 
 class BizarreInterface:
-    """Class for creating styled terminal interface"""
     
     @staticmethod
     def show_banner():
-        """Show initial bizarre banner"""
         banner = f"""
 {Colors.MAGENTA}{Colors.BOLD}
 ╔══════════════════════════════════════════════════════════════════╗
 ║                                                                  ║
-║    ██╗    ██╗██╗  ██╗ █████╗ ████████╗██╗███████╗██╗███████╗    ║
-║    ██║    ██║██║  ██║██╔══██╗╚══██╔══╝██║██╔════╝██║██╔════╝    ║
-║    ██║ █╗ ██║███████║███████║   ██║   ██║█████╗  ██║███████╗    ║
-║    ██║███╗██║██╔══██║██╔══██║   ██║   ██║██╔══╝  ██║╚════██║    ║
-║    ╚███╔███╔╝██║  ██║██║  ██║   ██║   ██║██║     ██║███████║    ║
-║     ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝     ╚═╝╚══════╝    ║
+║    ██╗    ██╗██╗  ██╗ █████╗ ████████╗██╗███████╗██╗███████╗     ║
+║    ██║    ██║██║  ██║██╔══██╗╚══██╔══╝██║██╔════╝██║██╔════╝     ║
+║    ██║ █╗ ██║███████║███████║   ██║   ██║█████╗  ██║███████╗     ║
+║    ██║███╗██║██╔══██║██╔══██║   ██║   ██║██╔══╝  ██║╚════██║     ║
+║    ╚███╔███╔╝██║  ██║██║  ██║   ██║   ██║██║     ██║███████║     ║
+║     ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝     ╚═╝╚══════╝     ║
 ║                                                                  ║
 ║           AUTOMATED RECONNAISSANCE & VULNERABILITY SCANNER       ║
 ║                     Version 2.0 | What If...?                    ║
@@ -78,7 +74,6 @@ class BizarreInterface:
     
     @staticmethod
     def show_status(message: str, status_type: str = "info"):
-        """Show status message with different colors"""
         symbols = {
             "info": f"{Colors.BLUE}[*]{Colors.RESET}",
             "success": f"{Colors.GREEN}[+]{Colors.RESET}",
@@ -93,11 +88,9 @@ class BizarreInterface:
     
     @staticmethod
     def bizarre_progress(total: int, current: int, text: str = "Progress"):
-        """Styled progress bar"""
         percentage = int((current / total) * 100) if total > 0 else 0
         bars = int(percentage / 5)
         
-        # "Bizarre" characters for the bar
         characters = ["▓", "▒", "░", "█", "▄", "▀", "■", "□", "◘", "○"]
         filled_char = random.choice(characters)
         empty_char = random.choice(characters)
@@ -110,7 +103,6 @@ class BizarreInterface:
     
     @staticmethod
     def show_section(title: str):
-        """Show section separator"""
         print(f"\n{Colors.CYAN}{'═' * 80}{Colors.RESET}")
         print(f"{Colors.MAGENTA}{Colors.BOLD}{title.center(80)}{Colors.RESET}")
         print(f"{Colors.CYAN}{'═' * 80}{Colors.RESET}")
@@ -135,11 +127,9 @@ class WhatIfScanner:
             "security_headers": []
         }
         
-        # Create output directory
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
-        
-        # Custom headers
+
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) WhatIfScanner/2.0',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -149,14 +139,12 @@ class WhatIfScanner:
         }
     
     def save_results(self):
-        """Save all results to files"""
         filename = os.path.join(self.output_dir, f"{self.domain}_recon.json")
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(self.results, f, indent=4, default=str, ensure_ascii=False)
         
         self.interface.show_status(f"Results saved to {filename}", "success")
         
-        # Save individual files
         self._save_to_file("subdomains.txt", "\n".join(self.results["subdomains"]))
         self._save_to_file("emails.txt", "\n".join(self.results["emails"]))
         self._save_to_file("open_ports.txt", 
@@ -167,18 +155,15 @@ class WhatIfScanner:
                              "\n".join([f"{v['type']}: {v['description']}" for v in self.results["vulnerabilities"]]))
     
     def _save_to_file(self, filename: str, content: str):
-        """Save content to specific file"""
         path = os.path.join(self.output_dir, filename)
         with open(path, 'w', encoding='utf-8') as f:
             f.write(content)
     
     def enumerate_subdomains(self) -> List[str]:
-        """Enumerate subdomains using various techniques"""
         self.interface.show_status(f"Enumerating subdomains for {self.domain}", "crazy")
         
         subdomains = set()
         
-        # Technique 1: Common subdomain brute-forcing
         common_subs = [
             "www", "mail", "ftp", "admin", "webmail", "server", "ns1", "ns2",
             "blog", "dev", "test", "staging", "api", "secure", "portal", "cpanel",
@@ -197,8 +182,7 @@ class WhatIfScanner:
                 self.interface.show_status(f"Subdomain found: {test_domain}", "success")
             except socket.gaierror:
                 continue
-        
-        # Technique 2: Certificate transparency simulation
+
         self.interface.show_status("Analyzing SSL certificates...", "info")
         self._enumerate_ssl_certificates(subdomains)
         
@@ -206,7 +190,6 @@ class WhatIfScanner:
         return list(subdomains)
     
     def _enumerate_ssl_certificates(self, subdomains: set):
-        """Try to find subdomains via SSL certificates"""
         certificate_patterns = [
             f"*.{self.domain}",
             f"mail.{self.domain}",
@@ -224,12 +207,10 @@ class WhatIfScanner:
             subdomains.add(pattern.replace("*.", ""))
     
     def scan_s3_buckets(self) -> List[Dict]:
-        """Check for open S3 buckets"""
         self.interface.show_status(f"Scanning S3 buckets related to {self.domain}", "warning")
         
         buckets = []
         
-        # Common naming patterns
         bucket_patterns = [
             f"{self.domain}",
             f"www.{self.domain}",
@@ -247,7 +228,6 @@ class WhatIfScanner:
             f"backup-{self.domain}"
         ]
         
-        # Cloud storage endpoints
         endpoints = [
             "s3.amazonaws.com",
             "s3-website-us-east-1.amazonaws.com",
@@ -285,12 +265,10 @@ class WhatIfScanner:
         return buckets
     
     def network_scan(self, ports: str = "1-1000") -> List[Dict]:
-        """Perform network scanning"""
         self.interface.show_status(f"Network scanning for {self.domain}", "crazy")
         
         open_ports = []
         
-        # Try to get IP address
         try:
             ip_address = socket.gethostbyname(self.domain)
             self.interface.show_status(f"Resolved to IP: {ip_address}", "success")
@@ -298,7 +276,6 @@ class WhatIfScanner:
             self.interface.show_status(f"Could not resolve {self.domain}", "error")
             return []
         
-        # Method 1: Use nmap if available
         try:
             self.interface.show_status(f"Running nmap scan on {ip_address}", "info")
             result = subprocess.run(
@@ -309,7 +286,6 @@ class WhatIfScanner:
                 encoding='utf-8'
             )
             
-            # Parse nmap output
             for line in result.stdout.split('\n'):
                 if '/tcp' in line and 'open' in line:
                     parts = line.split()
@@ -317,7 +293,6 @@ class WhatIfScanner:
                     port = int(port_info[0])
                     service = port_info[-1] if len(port_info) > 1 else "unknown"
                     
-                    # Try to get service version
                     version = ""
                     if len(parts) > 2:
                         version = " ".join(parts[2:])
@@ -333,7 +308,6 @@ class WhatIfScanner:
                     self.interface.show_status(f"Open port: {port}/{service} {version}", "success")
                     
         except (subprocess.TimeoutExpired, FileNotFoundError):
-            # Method 2: Fallback to socket scanning
             self.interface.show_status("Nmap not found, using socket scanning", "warning")
             open_ports = self._socket_scan(ip_address, ports)
         
@@ -341,10 +315,8 @@ class WhatIfScanner:
         return open_ports
     
     def _socket_scan(self, ip: str, ports_range: str) -> List[Dict]:
-        """Socket scanning method (fallback)"""
         open_ports = []
         
-        # Common ports to check
         common_ports = [
             21, 22, 23, 25, 53, 80, 110, 143, 443, 445, 
             465, 587, 993, 995, 1433, 1521, 3306, 3389, 
@@ -381,13 +353,11 @@ class WhatIfScanner:
         return open_ports
     
     def _get_banner(self, ip: str, port: int) -> str:
-        """Attempt to get service banner"""
         try:
             socket.setdefaulttimeout(2)
             s = socket.socket()
             s.connect((ip, port))
             
-            # Send payloads based on port
             if port == 80 or port == 443 or port == 8080:
                 s.send(b"HEAD / HTTP/1.0\r\n\r\n")
             elif port == 21:
@@ -404,7 +374,6 @@ class WhatIfScanner:
             return ""
     
     def _port_to_service(self, port: int) -> str:
-        """Map port numbers to service names"""
         service_map = {
             21: "ftp", 22: "ssh", 23: "telnet", 25: "smtp", 53: "dns",
             80: "http", 110: "pop3", 143: "imap", 443: "https", 445: "smb",
@@ -419,12 +388,10 @@ class WhatIfScanner:
         return service_map.get(port, "unknown")
     
     def collect_emails(self) -> List[str]:
-        """Collect email addresses from various sources"""
         self.interface.show_status(f"Collecting emails for {self.domain}", "info")
         
         emails = set()
         
-        # Method 1: WHOIS lookup
         try:
             w = whois.whois(self.domain)
             if w.emails:
@@ -445,7 +412,6 @@ class WhatIfScanner:
         except Exception as e:
             self.interface.show_status(f"WHOIS lookup failed: {e}", "warning")
         
-        # Method 2: Website scraping
         try:
             urls_to_test = [
                 f"http://{self.domain}",
@@ -461,12 +427,10 @@ class WhatIfScanner:
                 try:
                     response = requests.get(url, headers=self.headers, timeout=5)
                     
-                    # Email patterns
                     email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
                     found_emails = re.findall(email_pattern, response.text, re.IGNORECASE)
                     emails.update([e.lower() for e in found_emails])
                     
-                    # Also look for mailto: format
                     mailto_pattern = r'mailto:([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,})'
                     mailto_emails = re.findall(mailto_pattern, response.text, re.IGNORECASE)
                     emails.update([e.lower() for e in mailto_emails])
@@ -477,7 +441,6 @@ class WhatIfScanner:
         except Exception as e:
             self.interface.show_status(f"Website scraping failed: {e}", "warning")
         
-        # Method 3: Common email patterns
         common_users = ["admin", "webmaster", "info", "support", "contact", 
                        "sales", "help", "postmaster", "hostmaster", "administrator",
                        "contact", "helpdesk", "noc", "security", "abuse"]
@@ -494,12 +457,10 @@ class WhatIfScanner:
         return list(emails)
     
     def scan_web_vulnerabilities(self) -> List[Dict]:
-        """Perform basic web vulnerability scanning"""
         self.interface.show_status(f"Scanning web vulnerabilities for {self.domain}", "vuln")
         
         vulnerabilities = []
         
-        # Get base URLs
         base_urls = [
             f"http://{self.domain}",
             f"https://{self.domain}",
@@ -509,31 +470,22 @@ class WhatIfScanner:
         
         for base_url in base_urls:
             try:
-                # Test base URL
                 response = requests.get(base_url, headers=self.headers, timeout=10, verify=False)
                 
-                # 1. Check security headers
                 vulnerabilities.extend(self._check_security_headers(base_url, response.headers))
                 
-                # 2. Check sensitive information
                 vulnerabilities.extend(self._check_sensitive_information(base_url, response.text))
                 
-                # 3. Check sensitive files
                 vulnerabilities.extend(self._check_sensitive_files(base_url))
                 
-                # 4. Check dangerous HTTP methods
                 vulnerabilities.extend(self._check_http_methods(base_url))
                 
-                # 5. Check suspicious parameters
                 vulnerabilities.extend(self._check_parameters(base_url))
                 
-                # 6. Check vulnerable technologies
                 vulnerabilities.extend(self._check_technologies(base_url, response.headers, response.text))
                 
-                # 7. Check for SQL injection vectors
                 vulnerabilities.extend(self._check_sql_injection(base_url))
                 
-                # 8. Check for XSS vectors
                 vulnerabilities.extend(self._check_xss(base_url))
                 
             except requests.RequestException as e:
@@ -544,7 +496,6 @@ class WhatIfScanner:
         return vulnerabilities
     
     def _check_security_headers(self, url: str, headers: Dict) -> List[Dict]:
-        """Check for missing security headers"""
         vulnerabilities = []
         
         required_headers = {
@@ -576,7 +527,6 @@ class WhatIfScanner:
         return vulnerabilities
     
     def _check_sensitive_information(self, url: str, content: str) -> List[Dict]:
-        """Check for sensitive information leakage"""
         vulnerabilities = []
         
         sensitive_patterns = {
@@ -605,7 +555,6 @@ class WhatIfScanner:
         return vulnerabilities
     
     def _check_sensitive_files(self, base_url: str) -> List[Dict]:
-        """Check for exposed sensitive files"""
         vulnerabilities = []
         
         sensitive_files = [
@@ -646,7 +595,7 @@ class WhatIfScanner:
                 response = requests.get(url, headers=self.headers, timeout=3, verify=False)
                 if response.status_code == 200:
                     size = len(response.content)
-                    if size > 0:  # Ignore empty responses
+                    if size > 0:
                         severity = "High" if any(x in file_path for x in [".env", "config", ".git"]) else "Medium"
                         vulnerabilities.append({
                             "type": "Sensitive File Exposed",
@@ -661,7 +610,6 @@ class WhatIfScanner:
         return vulnerabilities
     
     def _check_http_methods(self, url: str) -> List[Dict]:
-        """Check for dangerous HTTP methods enabled"""
         vulnerabilities = []
         
         dangerous_methods = ["PUT", "DELETE", "TRACE", "CONNECT", "PATCH"]
@@ -669,7 +617,7 @@ class WhatIfScanner:
         try:
             for method in dangerous_methods:
                 response = requests.request(method, url, headers=self.headers, timeout=3, verify=False)
-                if response.status_code not in [405, 501]:  # Method not allowed
+                if response.status_code not in [405, 501]:
                     vulnerabilities.append({
                         "type": "Dangerous HTTP Method Enabled",
                         "severity": "Medium",
@@ -683,7 +631,6 @@ class WhatIfScanner:
         return vulnerabilities
     
     def _check_parameters(self, url: str) -> List[Dict]:
-        """Check for suspicious parameters"""
         vulnerabilities = []
         
         vulnerable_params = [
@@ -695,12 +642,10 @@ class WhatIfScanner:
         ]
         
         for param in vulnerable_params:
-            # Test basic injection
             test_url = f"{url}?{param}=test'OR'1'='1"
             try:
                 response = requests.get(test_url, headers=self.headers, timeout=3, verify=False)
                 if response.status_code == 200:
-                    # Check for differences in response
                     normal_response = requests.get(url, headers=self.headers, timeout=3, verify=False)
                     
                     if len(response.text) != len(normal_response.text):
@@ -717,7 +662,6 @@ class WhatIfScanner:
         return vulnerabilities
     
     def _check_technologies(self, url: str, headers: Dict, content: str) -> List[Dict]:
-        """Check for technologies with known vulnerabilities"""
         vulnerabilities = []
         
         technologies = {
@@ -753,7 +697,6 @@ class WhatIfScanner:
         return vulnerabilities
     
     def _check_sql_injection(self, url: str) -> List[Dict]:
-        """Check for basic SQL injection vectors"""
         vulnerabilities = []
         
         sql_payloads = [
@@ -766,7 +709,6 @@ class WhatIfScanner:
             "1 AND 1=2"
         ]
         
-        # Get parameters from URL if any
         parsed_url = urlparse(url)
         if parsed_url.query:
             params = parsed_url.query.split('&')
@@ -778,7 +720,6 @@ class WhatIfScanner:
                         try:
                             response = requests.get(test_url, headers=self.headers, timeout=3, verify=False)
                             
-                            # Check for SQL error messages
                             sql_errors = [
                                 "SQL syntax",
                                 "mysql_fetch",
@@ -808,7 +749,6 @@ class WhatIfScanner:
         return vulnerabilities
     
     def _check_xss(self, url: str) -> List[Dict]:
-        """Check for basic XSS vectors"""
         vulnerabilities = []
         
         xss_payloads = [
@@ -819,7 +759,6 @@ class WhatIfScanner:
             "<svg onload=alert('XSS')>"
         ]
         
-        # Test reflected XSS
         test_params = ["q", "search", "query", "id", "name"]
         
         for param in test_params:
@@ -827,8 +766,7 @@ class WhatIfScanner:
                 test_url = f"{url}?{param}={payload}"
                 try:
                     response = requests.get(test_url, headers=self.headers, timeout=3, verify=False)
-                    
-                    # Check if payload is reflected in response
+
                     if payload in response.text:
                         vulnerabilities.append({
                             "type": "Cross-Site Scripting (XSS) Vulnerability",
@@ -845,14 +783,12 @@ class WhatIfScanner:
         return vulnerabilities
     
     def generate_report(self):
-        """Generate comprehensive report"""
         self.interface.show_section("WHATIF? SCAN REPORT")
         
         print(f"{Colors.YELLOW}Target Domain:{Colors.WHITE} {self.domain}")
         print(f"{Colors.YELLOW}Scan Time:{Colors.WHITE} {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         print(f"{Colors.CYAN}{'-'*80}{Colors.RESET}")
-        
-        # Statistics
+
         print(f"{Colors.GREEN}✓ Subdomains Found:{Colors.WHITE} {len(self.results['subdomains'])}")
         print(f"{Colors.GREEN}✓ Open Ports:{Colors.WHITE} {len(self.results['open_ports'])}")
         print(f"{Colors.GREEN}✓ Emails Collected:{Colors.WHITE} {len(self.results['emails'])}")
@@ -860,7 +796,6 @@ class WhatIfScanner:
         print(f"{Colors.RED}⚠ Vulnerabilities:{Colors.WHITE} {len(self.results['vulnerabilities'])}")
         print(f"{Colors.BLUE}ℹ Technologies:{Colors.WHITE} {len(self.results['web_technologies'])}")
         
-        # Vulnerability breakdown
         if self.results["vulnerabilities"]:
             vuln_by_severity = {}
             for vuln in self.results["vulnerabilities"]:
@@ -873,8 +808,7 @@ class WhatIfScanner:
                 if count > 0:
                     color = Colors.RED if severity in ["Critical", "High"] else Colors.YELLOW if severity == "Medium" else Colors.BLUE
                     print(f"  {color}{severity}:{Colors.WHITE} {count}")
-        
-        # Critical vulnerabilities
+
         critical_vulns = [v for v in self.results["vulnerabilities"] if v["severity"] in ["Critical", "High"]]
         if critical_vulns:
             print(f"\n{Colors.RED}{Colors.BLINK}CRITICAL FINDINGS:{Colors.RESET}")
@@ -883,7 +817,6 @@ class WhatIfScanner:
                 print(f"    {vuln['description']}")
                 print(f"    {Colors.CYAN}Recommendation:{Colors.RESET} {vuln['recommendation']}")
         
-        # Open ports
         if self.results["open_ports"]:
             print(f"\n{Colors.BLUE}{Colors.BOLD}OPEN PORTS:{Colors.RESET}")
             for port_info in self.results["open_ports"][:10]:  # Show top 10
@@ -891,8 +824,7 @@ class WhatIfScanner:
                 print(f"  {Colors.GREEN}▶{Colors.RESET} Port {port_info['port']}: {service_color}{port_info['service']}{Colors.RESET}")
                 if port_info.get('version'):
                     print(f"    Version: {port_info['version'][:50]}")
-        
-        # Subdomains
+
         if self.results["subdomains"]:
             print(f"\n{Colors.CYAN}{Colors.BOLD}TOP SUBDOMAINS:{Colors.RESET}")
             for i, sub in enumerate(self.results["subdomains"][:10], 1):
@@ -903,7 +835,6 @@ class WhatIfScanner:
         print(f"{Colors.CYAN}{'='*80}{Colors.RESET}")
 
 def main():
-    """Main function with argument parsing"""
     parser = argparse.ArgumentParser(
         description="WhatIf? - Automated Reconnaissance & Vulnerability Scanner",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -935,39 +866,28 @@ def main():
     
     args = parser.parse_args()
     
-    # Show banner
     BizarreInterface.show_banner()
     
-    # Initialize scanner
     scanner = WhatIfScanner(args.domain, args.output)
     
     try:
-        # Perform scanning tasks
         scanner.interface.show_status(f"Starting reconnaissance on {args.domain}", "crazy")
         
         if args.vuln_only:
-            # Only vulnerability scanning
             scanner.scan_web_vulnerabilities()
         else:
-            # Full reconnaissance
-            # 1. Subdomain enumeration
             scanner.enumerate_subdomains()
             
-            # 2. S3 bucket discovery
             if not args.quick:
                 scanner.scan_s3_buckets()
             
-            # 3. Email collection
             scanner.collect_emails()
             
-            # 4. Network scanning
             if not args.no_nmap:
                 scanner.network_scan(args.ports)
             
-            # 5. Web vulnerability scanning
             scanner.scan_web_vulnerabilities()
-        
-        # Save results and generate report
+
         scanner.save_results()
         scanner.generate_report()
         
@@ -976,7 +896,7 @@ def main():
         
     except KeyboardInterrupt:
         scanner.interface.show_status("\n[!] Scan interrupted by user", "error")
-        scanner.save_results()  # Save partial results
+        scanner.save_results()
         sys.exit(1)
     except Exception as e:
         scanner.interface.show_status(f"\n[!] Error: {e}", "error")

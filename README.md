@@ -179,7 +179,6 @@ If you find vulnerabilities in systems you don't own:
 
 [![GitHub followers](https://img.shields.io/github/followers/Samucahub?style=social&label=Follow&maxAge=2592000)](https://github.com/Samucahub "Follow Me")
 [![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2FTechnicalShubam)](https://twitter.com/intent/tweet?text=Wow:&url=https://github.com/Samucahub/next-portfolio "Tweet")
-[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@SamuRochê "Subscribe my Channel")
 
 ## 🤝 Contributing
 

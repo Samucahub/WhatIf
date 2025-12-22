@@ -43,5 +43,5 @@
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/whatif.git
-cd whatif
+git clone https://github.com/yourusername/WhatIf.git
+cd WhatIf

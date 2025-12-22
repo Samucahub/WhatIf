@@ -175,6 +175,12 @@ If you find vulnerabilities in systems you don't own:
 
 [<img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" width="200" />](https://www.buymeacoffee.com/samunana "Buy me a Coffee")
 
+## :rocket: Follow Me
+
+[![GitHub followers](https://img.shields.io/github/followers/sanidhyy?style=social&label=Follow&maxAge=2592000)](https://github.com/Samucahub "Follow Me")
+[![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2FTechnicalShubam)](https://twitter.com/intent/tweet?text=Wow:&url=https://github.com/sanidhyy/next-portfolio "Tweet")
+[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@SamuRochê "Subscribe my Channel")
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -194,21 +200,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Inspired by various open-source security tools
 - Thanks to the security community for best practices
 - Built with education and authorized testing in mind
-
-## ⚠️ Disclaimer
-
-**WhatIf?** is provided for educational and authorized testing purposes only. The developers assume no liability and are not responsible for any misuse or damage caused by this program. It is the end user's responsibility to obey all applicable local, state, and federal laws.
-
----
-
-**Remember**: With great power comes great responsibility. Use WhatIf? wisely and ethically.
-
-## 📞 Contact
-
-For questions, suggestions, or security concerns:
-- GitHub Issues: [Report an issue](https://github.com/yourusername/whatif-scanner/issues)
-- Email: security@example.com
-
----
 
 **What If...** you could automate your reconnaissance? Now you can. 🚀

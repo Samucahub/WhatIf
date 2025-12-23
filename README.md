@@ -3,7 +3,7 @@
 ![WhatIf? Banner](https://img.shields.io/badge/WhatIf?-Security-red)
 ![Python Version](https://img.shields.io/badge/python-3.8+-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20WSL-blue)
+![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-blue)
 
 **WhatIf?** is a comprehensive automated reconnaissance and vulnerability scanning tool designed for security professionals, penetration testers, and ethical hackers.
 

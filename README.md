@@ -27,12 +27,6 @@
 - **XSS Testing**: Reflected XSS vulnerability checking
 - **Technology Detection**: Identify web technologies with known vulnerabilities
 
-### 🎨 Unique Interface
-- Color-coded terminal output with "bizarre" styling
-- Progress bars with random characters
-- Categorized status messages (info, success, warning, error, vulnerability)
-- Comprehensive report generation
-
 ## 🚀 Quick Start
 
 ### Prerequisites

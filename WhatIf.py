@@ -77,8 +77,7 @@ class Interface:
 ║     ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝     ╚═╝╚══════╝     ║
 ║                                                                  ║
 ║           AUTOMATED RECONNAISSANCE & VULNERABILITY SCANNER       ║
-║                     Version 2.1 | What If...?                    ║
-║           For Authorized Security Testing Only!                  ║
+║                     Version 1.0 | What If...?                    ║
 ║                                                                  ║
 ╚══════════════════════════════════════════════════════════════════╝
 {Colors.RESET}

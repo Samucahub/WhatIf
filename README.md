@@ -1,3 +1,17 @@
+gantt
+    title Cronograma do Projeto CyberShield Pro
+    dateFormat  YYYY-MM-DD
+    section Fases
+    Análise e Planejamento       :a1, 2024-01-01, 4w
+    Implementação Técnica        :a2, after a1, 12w
+    Automação e Resposta         :a3, after a2, 4w
+    Treinamento                  :a4, after a3, 4w
+    section Marcos
+    Kick-off do Projeto          :milestone, 2024-01-01, 1d
+    Pentest Completo             :milestone, after a1, 1d
+    Go-live Fase 1               :milestone, after a2, 1d
+    Projeto Concluído            :milestone, after a4, 1d
+    
 # WhatIf? - Automated Reconnaissance & Vulnerability Scanner
 
 ![WhatIf? Banner](https://img.shields.io/badge/WhatIf?-Security-red)

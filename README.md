@@ -27,7 +27,7 @@
 - **XSS Testing**: Reflected XSS vulnerability checking
 - **Technology Detection**: Identify web technologies with known vulnerabilities
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Python 3.8 or higher
@@ -37,7 +37,7 @@
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/WhatIf.git
+git clone https://github.com/Samucahub/WhatIf.git
 cd WhatIf
 ```
 
